@@ -1,0 +1,264 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>Bookstore</PageTitle>
+
+<h1>Bookstore</h1>
+@if(books is null)
+{
+    <p><em>Loading books...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <th>ISBN</th>
+            <th>Title</th>
+            @if(books.Count() > 0 && books.First()?.Authors.Count() > 0)
+            {               
+                <th>Publisher</th>
+                <th>Author</th>
+            }
+            else
+            {
+                <th></th>
+                <th></th>
+            }
+            <th>Options</th>                  
+        </thead>
+        <tbody>
+            @foreach(var book in books)
+            {
+                <tr>
+                    <td>@book.Isbn</td>
+                    <td>@book.Title</td>
+                    @if(book.Publisher is not null)
+                    {
+                        <td>@book.Publisher.Name</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if(book.Authors.Count > 0)
+                    {
+                        <td>@string.Join(",", book.Authors.Select(a => $" {a.FirstName} {a.LastName}"))</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td style="width: 130px;">
+                        <button class="btn btn-sm btn-primary" @onclick="() => GetBook(book.Id)">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => RemoveBook(book.Id)">Delete</button>
+                    </td>                   
+                </tr>
+            }
+            @if(publishers is not null && authors is not null)
+            {
+                <tr>
+                    <td class="ps-0"><input id="isbn" class="form-control" placeholder="ISBN" @bind="newBook.Isbn"/></td>
+                    <td class="ps-0"><input id="title" class="form-control" placeholder="Title" @bind="newBook.Title"/></td>
+                    <td>
+                        <select class="form-select" @bind="newBook.PublisherId">
+                            @foreach(var publisher in publishers)
+                            {
+                                <option value="@publisher.Id">@publisher.Name</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success" @onclick="AddBook">Add</button>
+                    </td>
+                    <td></td>
+                </tr>
+            }           
+        </tbody>
+    </table>
+}
+@if(publishers is not null && updateBook is not null)
+{
+    <h6>Update: @updateBook.Title</h6>
+    <EditForm Model="@updateBook" OnValidSubmit="@(e => SaveEditedBook(updateBook.Id))">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="input-group mb-3 width">
+            <InputText id="isbn" class="form-control" aria-placeholder="ISBN" @bind-Value="updateBook.Isbn" />
+            <InputText id="title" class="form-control" aria-placeholder="Title" @bind-Value="updateBook.Title" />
+            <InputSelect class="form-select" @bind-Value="updateBook.PublisherId">
+                @foreach(var publisher in publishers)
+                {
+                    @if(publisher.Id == updateBook.PublisherId)
+                    {
+                        <option selected value="@publisher.Id">@publisher.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@publisher.Id">@publisher.Name</option>
+                    }
+                }
+            </InputSelect>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </EditForm>
+
+    <h6>Update Authors for: @updateBook.Title</h6>
+    @if(updateBook.Authors is not null && authors is not null )
+    {
+        <ul class="list-group mb-3 width">
+            @foreach(var author in authors)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>@author.FirstName @author.LastName</div>
+                    <div>
+                        @if(updateBook.Authors.Any(a => a.Id.Equals(author.Id)))
+                        {
+                            <button class="btn btn-sm btn-danger" @onclick="() => RemoveAuthorFromBook(author.Id, updateBook.Id)">
+                                Delete
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-sm btn-primary" @onclick="() => AddAuthorToBook(author.Id, updateBook.Id)">
+                                Add
+                            </button>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+}
+@if(authors is null)
+{
+    <p><em>Loading authors...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Options</th>
+        </thead>
+        <tbody>
+            @foreach(var author in authors)
+            {
+                <tr>
+                    <td>@author.FirstName</td>
+                    <td>@author.LastName</td>
+                    <td style="width: 130px;">
+                        <button class="btn btn-sm btn-primary" @onclick="() => GetAuthor(author.Id)" >Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => RemoveAuthor(author.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+            @if(authors is not null)
+            {
+                <tr>
+                    <td><input id="firstName" class="form-control" placeholder="First name" @bind="newAuthor.FirstName" /></td>
+                    <td><input id="lastName" class="form-control" placeholder="Last name" @bind="newAuthor.LastName" /></td>
+                    <td><button type="submit" class="btn btn-success" @onclick="AddAuthor">Add</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if(updateAuthor is not null)
+{
+    <h6>Update: @updateAuthor.FirstName @updateAuthor.LastName</h6>
+    <EditForm Model="@updateAuthor" OnValidSubmit="@(e => SaveEditedAuthor(updateAuthor.Id))">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="input-group mb-3 width">
+            <InputText id="firstName" class="form-control" aria-placeholder="First name" @bind-Value="updateAuthor.FirstName" />
+            <InputText id="lastName" class="form-control" aria-placeholder="Last name" @bind-Value="updateAuthor.LastName" />
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </EditForm>
+}
+
+
+@code {
+    private BookDTO? updateBook = default;
+    private BookDTO newBook = new();
+    private AuthorDTO? updateAuthor = default;
+    private AuthorDTO newAuthor = new();
+    private List<BookDTO>? books;
+    private List<PublisherDTO>? publishers;
+    private List<AuthorDTO>? authors;
+    
+    protected override async Task OnInitializedAsync() => await GetData();
+    private async Task GetData()
+    {
+        books = await Http.GetFromJsonAsync<List<BookDTO>>("api/books?include=true");
+        publishers = await Http.GetFromJsonAsync<List<PublisherDTO>>("api/publishers?include=true");
+        authors = await Http.GetFromJsonAsync<List<AuthorDTO>>("api/authors?include=true");
+    }
+    private async Task GetBook(int bookId)
+        => updateBook = await Http.GetFromJsonAsync<BookDTO>($"api/books/{bookId}?include=true");
+    private async Task RemoveBook(int bookId)
+    {
+        await Http.DeleteAsync($"api/books/{bookId}");
+        await GetData();
+    }
+    private async Task AddBook()
+    {
+        if(newBook is null)
+            return;
+        var result =  await Http.PostAsJsonAsync<BookDTO>($"api/books/", newBook);
+        newBook = new();
+        await GetData();
+    }
+    private async Task SaveEditedBook(int bookId)
+    {
+        try
+        {
+            await Http.PutAsJsonAsync($"api/books/{bookId}", updateBook);
+            updateBook = default;
+            await GetData();
+        }
+        catch { }        
+    }
+    private async Task AddAuthorToBook(int authorId, int bookId)
+    {
+        AuthorBookDTO dto = new(authorId, bookId);
+        await Http.PostAsJsonAsync($"api/AuthorBooks",dto);
+        updateBook = default;
+        await GetData();
+    }
+    private async Task RemoveAuthorFromBook(int authorId, int bookId)
+    {
+        AuthorBookDTO dto = new(authorId, bookId);
+        await Http.DeleteAsync($"api/AuthorBooks?bookId={bookId}&authorId={authorId}");
+        updateBook = default;
+        await GetData();
+    }
+    private async Task AddAuthor()
+    {
+        if(newAuthor is null)
+            return;
+        var result =  await Http.PostAsJsonAsync<AuthorDTO>($"api/authors/", newAuthor);
+        newAuthor = new();
+        await GetData();
+    }
+    private async Task GetAuthor(int authorId)
+        => updateAuthor = await Http.GetFromJsonAsync<AuthorDTO>($"api/authors/{authorId}?include=true");
+    private async Task SaveEditedAuthor(int authorId)
+    {
+        try
+        {
+            await Http.PutAsJsonAsync($"api/authors/{authorId}", updateAuthor);
+            updateAuthor = default;
+            await GetData();
+        }
+        catch { }        
+    }
+    private async Task RemoveAuthor(int authorId)
+    {
+        await Http.DeleteAsync($"api/authors/{authorId}");
+        await GetData();
+    }
+}

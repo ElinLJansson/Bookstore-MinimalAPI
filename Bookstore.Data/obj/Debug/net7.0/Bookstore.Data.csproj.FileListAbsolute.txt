@@ -1,0 +1,14 @@
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\bin\Debug\net7.0\Bookstore.Data.deps.json
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\bin\Debug\net7.0\Bookstore.Data.runtimeconfig.json
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\bin\Debug\net7.0\Bookstore.Data.dll
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\bin\Debug\net7.0\Bookstore.Data.pdb
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.csproj.AssemblyReference.cache
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.AssemblyInfoInputs.cache
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.AssemblyInfo.cs
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.csproj.CoreCompileInputs.cache
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.dll
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\refint\Bookstore.Data.dll
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.pdb
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\Bookstore.Data.genruntimeconfig.cache
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Data\obj\Debug\net7.0\ref\Bookstore.Data.dll

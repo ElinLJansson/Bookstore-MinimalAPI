@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "UJu5MlYJpcCdp1lrYvDDAcx1mQQ01oZf+uvF8aOoIAI=",
+  "Source": "Bookstore.MiniAPI",
+  "BasePath": "_content/Bookstore.MiniAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
