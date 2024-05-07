@@ -16,33 +16,6 @@ public class BookstoreContext : DbContext
 
     private void SeedData(ModelBuilder builder)
     {
-        #region *** ADD THIS SEED DATA TO MIGRATION ***
-        /*
-            migrationBuilder.InsertData(
-                table: "AuthorPublisher",
-                columns: new[] { "AuthorsId", "PublishersId" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 1, 2 },
-                    { 2, 2 },
-                    { 2, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AuthorBook",
-                columns: new[] { "AuthorsId", "BooksId" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 1, 2 },
-                    { 2, 2 },
-                    { 2, 3 }
-                });
-
-         */
-        #endregion
-
         var publishers = new List<Publisher>
         {
             new Publisher { Id = 1, Name = "Publisher 1" },

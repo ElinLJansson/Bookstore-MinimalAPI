@@ -9,3 +9,4 @@ C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Common\obj\Debug\net7.0\Book
 C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Common\obj\Debug\net7.0\refint\Bookstore.Common.dll
 C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Common\obj\Debug\net7.0\Bookstore.Common.pdb
 C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Common\obj\Debug\net7.0\ref\Bookstore.Common.dll
+C:\Users\Elin\VS-CODE\Exercises\Chapter18\Bookstore.Common\obj\Debug\net7.0\Bookstore.Common.sourcelink.json
